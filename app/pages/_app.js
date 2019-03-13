@@ -10,7 +10,7 @@ const createApolloClient = (cache = {}) =>
   new ApolloClient({
     ssrMode: typeof window !== 'undefined',
     cache: new InMemoryCache().restore(cache),
-    link: createUploadLink({ uri: process.env.API_URI })
+    link: createUploadLink({ uri: 'http://localhost:8080/graphql' })
   })
 
 export default class CustomApp extends App {

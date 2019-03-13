@@ -15,11 +15,11 @@ const UploadFile = ({ mutate }) => {
       update(
         proxy,
         {
-          data: { singleUpload }
+          data: { createTextDocument }
         }
       ) {
         const data = proxy.readQuery({ query: uploadsQuery })
-        data.uploads.push(singleUpload)
+        data.uploads.push(createTextDocument)
         proxy.writeQuery({ query: uploadsQuery, data })
       }
     })
@@ -29,11 +29,26 @@ const UploadFile = ({ mutate }) => {
 
 export default graphql(gql`
   mutation($file: Upload!) {
-    singleUpload(file: $file) {
-      id
-      filename
-      mimetype
-      path
-    }
+      createTextDocument(input: {
+          fileName: "hahah"
+          version: "test"
+          file: $file
+      }) {
+          fileName
+          chunks(start: 0, end: 10) {
+              id
+              sentenceIndexStart
+              sentenceIndexEnd
+              sentences {
+                  id
+                  content
+                  posLabels {
+                      l
+                      s
+                      e
+                  }
+              }
+          }
+      }
   }
 `)(UploadFile)
